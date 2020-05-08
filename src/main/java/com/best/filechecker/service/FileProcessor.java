@@ -22,9 +22,9 @@ import static com.best.filechecker.util.wrappers.ConsumerWrapper.consumerWrapper
 
 @Slf4j
 @Service
-public class FilesValidator {
+public class FileProcessor {
     private final Path path;
-    public FilesValidator(@Location String location) {
+    public FileProcessor(@Location String location) {
         this.path = Paths.get(location);
     }
 
