@@ -11,30 +11,29 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.best.filechecker.util.mapping.FileNames.OUTPUT_FILE;
 import static com.best.filechecker.util.wrappers.ConsumerWrapper.consumerWrapper;
 
 @Slf4j
 @Service
 public class FileProcessor {
     private final Path path;
+
     public FileProcessor(@Location String location) {
         this.path = Paths.get(location);
     }
 
-    public StoredFiles processUploadedFiles(MultipartFile[] files){
+    public StoredFiles processUploadedFiles(MultipartFile[] files, String outputFile) {
         storeFiles(files);
         var submittedFiles = getSubmittedFiles();
         return StoredFiles.builder()
                 .firstFile(submittedFiles.get(0))
                 .secondFile(submittedFiles.get(1))
-                .outputFile(OUTPUT_FILE + Instant.now().toEpochMilli())
+                .outputFile(path.resolve(outputFile).toString())
                 .build();
     }
 
@@ -56,11 +55,11 @@ public class FileProcessor {
                 });
     }
 
-    public String getOutputFile() {
+    public String getOutputFile(String outputFile) {
         try {
             return Files.walk(path)
                     .filter(s -> !Files.isDirectory(s))
-                    .filter(s -> s.getFileName().toString().contains(OUTPUT_FILE))
+                    .filter(s -> s.toString().contains(outputFile))
                     .map(Path::toString)
                     .findAny()
                     .orElseThrow(() -> new StorageException("File has not been generated"));
@@ -83,7 +82,6 @@ public class FileProcessor {
         try {
             return Files.walk(path)
                     .filter(s -> !Files.isDirectory(s))
-                    .map(Path::getFileName)
                     .map(Path::toString)
                     .collect(Collectors.toList());
         } catch (IOException e) {

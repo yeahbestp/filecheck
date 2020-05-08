@@ -1,24 +1,26 @@
 package com.best.filechecker.service;
 
+import com.best.filechecker.util.config.annotations.Location;
 import de.redsix.pdfcompare.CompareResultWithMemoryOverflow;
 import de.redsix.pdfcompare.PdfComparator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-
-import static com.best.filechecker.util.mapping.FileNames.OUTPUT_FILE;
 
 @Slf4j
 @Service
 public class PdfValidator {
 
-    public void compareFiles(String firstFileLocation, String secondFileLocation) {
+    public void compareFiles(String firstFile, String secondFile, String outputFile) {
         System.getProperty("sun.java2d.cmm", "sun.java2d.cmm.kcms.KcmsServiceProvider");
         try {
-            new PdfComparator(firstFileLocation, secondFileLocation, new CompareResultWithMemoryOverflow())
+
+            new PdfComparator(firstFile, secondFile, new CompareResultWithMemoryOverflow())
                     .compare()
-                    .writeTo(OUTPUT_FILE);
+                    .writeTo(outputFile);
         } catch (IOException e) {
             log.error("error while reading a file");
             e.printStackTrace();
