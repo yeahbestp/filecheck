@@ -1,4 +1,4 @@
-package com.best.filechecker.util.config.exceptions;
+package com.best.filechecker.util.exceptions;
 
 public class StorageException extends RuntimeException {
 
