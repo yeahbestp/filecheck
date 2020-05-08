@@ -28,7 +28,17 @@ public class FileProcessor {
         this.path = Paths.get(location);
     }
 
-    public void storeFiles(MultipartFile[] files) {
+    public StoredFiles processUploadedFiles(MultipartFile[] files){
+        storeFiles(files);
+        var submittedFiles = getSubmittedFiles();
+        return StoredFiles.builder()
+                .firstFile(submittedFiles.get(0))
+                .secondFile(submittedFiles.get(1))
+                .outputFile(OUTPUT_FILE + Instant.now().toEpochMilli())
+                .build();
+    }
+
+    private void storeFiles(MultipartFile[] files) {
         if (files[0].isEmpty()) {
             throw new StorageException("Failed to store empty file, first file is empty");
         } else if (files[1].isEmpty()) {
@@ -44,15 +54,6 @@ public class FileProcessor {
                         log.error("Error while searching uploaded files");
                     }
                 });
-    }
-
-    public StoredFiles processStoredFiles(MultipartFile[] files){
-        var submittedFiles = getSubmittedFiles();
-        return StoredFiles.builder()
-                .firstFile(submittedFiles.get(0))
-                .secondFile(submittedFiles.get(1))
-                .outputFile(OUTPUT_FILE + Instant.now().toEpochMilli())
-                .build();
     }
 
     public String getOutputFile() {
