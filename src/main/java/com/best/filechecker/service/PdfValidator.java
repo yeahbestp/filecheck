@@ -1,11 +1,9 @@
 package com.best.filechecker.service;
 
-import com.best.filechecker.util.config.annotations.Location;
+import com.best.filechecker.util.aop.TimeLogger;
 import de.redsix.pdfcompare.CompareResultWithMemoryOverflow;
 import de.redsix.pdfcompare.PdfComparator;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -14,6 +12,7 @@ import java.io.IOException;
 @Service
 public class PdfValidator {
 
+    @TimeLogger
     public void compareFiles(String firstFile, String secondFile, String outputFile) {
         System.getProperty("sun.java2d.cmm", "sun.java2d.cmm.kcms.KcmsServiceProvider");
         try {
