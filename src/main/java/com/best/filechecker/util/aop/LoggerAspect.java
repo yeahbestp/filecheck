@@ -23,14 +23,14 @@ public class LoggerAspect {
 
     @Around("@annotation(TimeLogger)")
     public void logMethodExecutionTime(ProceedingJoinPoint joinPoint){
-        long start = Instant.now().toEpochMilli();
+        var start = Instant.now().toEpochMilli();
         try {
             joinPoint.proceed();
         } catch (Throwable throwable) {
             log.error("Error while proceeding", throwable);
         }
-      long end = Instant.now().toEpochMilli();
-      long duration = Duration.ofMillis(end - start).toSeconds();
+      var end = Instant.now().toEpochMilli();
+      var duration = Duration.ofMillis(end - start).toSeconds();
       log.info("Execution took {} seconds", duration);
     }
 
