@@ -3,19 +3,20 @@ package com.best.filechecker.controller;
 import com.best.filechecker.model.StoredFiles;
 import com.best.filechecker.service.FileProcessor;
 import com.best.filechecker.service.PdfValidator;
+import com.best.filechecker.util.exceptions.StorageException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -79,5 +80,15 @@ public class UploadController {
                 .contentLength(path.toFile().length())
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(StorageException.class)
+    public ModelAndView exceptionHandling(Exception e){
+        log.error("Error while processing request");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("exception",e);
+        modelAndView.setViewName("400Error");
+        return modelAndView;
     }
 }

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>400 Error Page</title>
+</head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<body>
+<div align="center">
+    <div>
+        <div>
+            <h1>400</h1>
+            <h2>Oops! Your request cannot be processed</h2>
+            <p>Sorry but the files you are trying to are to availbe to be process due to the following problem: </p>
+            <p th:text="${exception.getMessage()}">error</p>
+            <a href="/">Back to homepage</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
