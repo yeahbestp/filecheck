@@ -3,6 +3,7 @@ package com.best.filechecker.service;
 import com.best.filechecker.model.StoredFiles;
 import com.best.filechecker.util.config.annotations.Location;
 import com.best.filechecker.util.exceptions.StorageException;
+import com.best.filechecker.validation.FileValidators;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +29,8 @@ public class FileProcessor {
     }
 
     public StoredFiles processUploadedFiles(MultipartFile[] files, String outputFile) {
+        var fileValidator = new FileValidators();
+        fileValidator.validateUploadedFiles(files);
         storeFiles(files);
         var submittedFiles = getSubmittedFiles();
         return StoredFiles.builder()
@@ -38,12 +41,6 @@ public class FileProcessor {
     }
 
     private void storeFiles(MultipartFile[] files) {
-        if (files[0].isEmpty()) {
-            throw new StorageException("Failed to store empty file, first file is empty");
-        } else if (files[1].isEmpty()) {
-            throw new StorageException("Failed to store empty file, Second file is empty");
-        }
-
         Arrays.stream(files)
                 .forEach(file -> {
                     try {
