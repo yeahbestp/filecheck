@@ -36,7 +36,7 @@ public class FileValidators {
     private void differentFileValidator(MultipartFile[] files) {
         var fileNames = getFileNames(files);
         if (fileNames.get(0).equalsIgnoreCase(fileNames.get(1))) {
-            throw new StorageException("Files are the same");
+            throw new StorageException("Files have the same name");
         }
     }
 
