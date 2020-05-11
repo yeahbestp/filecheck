@@ -16,9 +16,9 @@ import java.time.Instant;
 @Aspect
 public class LoggerAspect {
 
-    @Before("execution(* *..*.* (..))")
+    @Before("execution(* com.best.filechecker..*.* (..))")
     public void logExecutedMethod(JoinPoint joinPoint){
-        log.debug("executed method: {}", joinPoint.getSignature().getName());
+        log.info("executed method: {}", joinPoint.getSignature().getName());
     }
 
     @Around("@annotation(TimeLogger)")
