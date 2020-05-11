@@ -6,7 +6,10 @@ import lombok.Value;
 @Value
 @Builder
 public class StoredFiles {
-    private String firstFile;
-    private String secondFile;
-    private String outputFile;
+    private String firstFileLocation;
+    private String secondFileLocation;
+    private String outputFileLocation;
+    private String firstFileName;
+    private String secondFileName;
+    private String outputFileName;
 }

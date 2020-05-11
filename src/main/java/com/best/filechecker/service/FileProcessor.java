@@ -34,9 +34,12 @@ public class FileProcessor {
         storeFiles(files);
         var submittedFiles = getSubmittedFiles();
         return StoredFiles.builder()
-                .firstFile(submittedFiles.get(0))
-                .secondFile(submittedFiles.get(1))
-                .outputFile(path.resolve(outputFile).toString())
+                .firstFileLocation(submittedFiles.get(0))
+                .secondFileLocation(submittedFiles.get(1))
+                .outputFileLocation(path.resolve(outputFile).toString())
+                .firstFileName(files[0].getOriginalFilename())
+                .secondFileName(files[1].getOriginalFilename())
+                .outputFileName(outputFile)
                 .build();
     }
 
